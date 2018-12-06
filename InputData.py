@@ -1,10 +1,12 @@
 import sys, math, re
+import global
+
 def readdata(namafile):
 	f=open(namafile,"r")
 	data={}
 	
 	ngnr=int(f.readline())
-	data['ngnr']=ngnr
+	global.outst['ngnr']=ngnr
 	
 	title=''
 	for i in range(4):
@@ -14,7 +16,7 @@ def readdata(namafile):
 	title=''
 	for i in range(len(a)):
 		title=title+a[i]+' '
-	data['title']=title
+	global.title=title
 		
 	te=[]
 	temp1=f.readline()
@@ -23,7 +25,7 @@ def readdata(namafile):
 	te.append(temp3)
 	temp3=float(temp2[1])
 	te.append(temp3)
-	data['te']=te
+	global.zeits['te']=te
 	
 	dt=[]
 	temp1=f.readline()
@@ -32,7 +34,7 @@ def readdata(namafile):
 	dt.append(temp3)
 	temp3=float(temp2[1])
 	dt.append(temp3)
-	data['dt']=dt
+	global.zeits['dt']=dt
 	
 	dtout=[]
 	temp1=f.readline()
@@ -41,7 +43,7 @@ def readdata(namafile):
 	dtout.append(temp3)
 	temp3=temp2[1]
 	dtout.append(temp3)
-	data['dtout']=dtout
+	global.zeits['dtout']=dtout
 	
 	uk=[]
 	temp1=f.readline()
@@ -81,15 +83,19 @@ def readdata(namafile):
 	temp2=temp1.split()
 	rbe.append(float(temp2[0]))
 	rbe.append(float(temp2[1]))
-	data['rbe']=rbe
+	global.geod['rbe']=rbe
 	
-	nrbe=[]
+	nrb=[]
 	temp1=f.readline()
 	temp2=temp1.split()
-	nrbe.append(int(temp2[0]))
-	nrbe.append(int(temp2[1]))
-	data['nrbe']=nrbe
-	
+	nrb.append(int(temp2[0]))
+	nrb.append(int(temp2[1]))
+	global.geodi['nrb']=nrb
+	npp=0
+	for i in range(len(nrb)):
+		npp=npp+nrb(i)
+	global.geodi['npp']=npp
+		
 	temp1=f.readline()
 	temp2=temp1.split()
 	data['pzahl0']=float(temp2[0])
