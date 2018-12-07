@@ -1,5 +1,3 @@
-zeit0d=0
-
 geod={}
 geod['rbe']=[]
 geod['rcp']=[]
@@ -101,6 +99,28 @@ parrel['reld']=[]
 parrel['reldi']=0
 parrel['relii']=0
 parrel['ibr']=0
+
+pp={}
+pp['x1']=[]
+pp['y1']=[]
+pp['y2']=[]
+pp['y3']=[]
+pp['y4']=[]
+pp['y5']=[]
+pp['ilo']=0
+
+quell={}
+quell['zeit0']=0
+quell['qgesam']=0
+
+real1={}
+real1['zeit0d']=0
+real1['xn0']=0
+real1['zeitpr']=0
+real1['gamma']=0
+
+stopp={}
+stopp['ifstop']=0
 
 randb={}
 ranb['stoffu']=0
