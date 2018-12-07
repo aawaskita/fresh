@@ -7,7 +7,7 @@ geod['rkorn']=0
 geod['rb']=[]
 geod['rp']=[]
 geod['rko']=[]
-geod['pzahlo']=0
+geod['pzahl0']=0
 
 geodi={}
 geodi['nrbe']=0
@@ -95,6 +95,12 @@ outst['ifsick']=0
 outst['ngnr']=0
 outst['ifplt1']=0
 outst['ifplt2']=0
+
+parrel={}
+parrel['reld']=[]
+parrel['reldi']=0
+parrel['relii']=0
+parrel['ibr']=0
 
 randb={}
 ranb['stoffu']=0
