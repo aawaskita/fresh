@@ -111,7 +111,9 @@ pp['ilo']=0
 
 quell={}
 quell['zeit0']=0
-quell['qgesam']=0
+quell['qgesam']=0.0
+quell['qakt']=0
+quell['q1']=0.0
 
 real1={}
 real1['zeit0d']=0
