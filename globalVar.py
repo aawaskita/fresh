@@ -190,5 +190,16 @@ sic['isic']=0
 sic['msic']=0
 sic['msiges']=0
 
+adsoc={}
+adsoc['aci']=0
+adsoc['bci']=0
+adsoc['cgrenc']=0
+adsoc['tgrenc']=0
+adsoc['anci']=0
+adsoc['bnci']=0
+adsoc['enci']=0
+adsoc['fnci']=0
+adsoc['ifadc']=0
+
 di=[]
 q=[]

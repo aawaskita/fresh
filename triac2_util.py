@@ -16,7 +16,7 @@ from scipy import signal
 from scipy.integrate import cumtrapz
 from numpy.fft import fft, rfft
 from numpy import array
-import global
+import globalVar
 
 def anfang(data):
     print('#################')
@@ -442,7 +442,7 @@ def difko(data,t,i):
     Output:
         difko 
     """
-#    global data
+#    globalVar data
     
     diff= data['diff']
 #    print('diff dr difpo : ', data['diff'])
@@ -465,10 +465,12 @@ def ainve(r,c,n1,n2):
         n1:
         n2:
     output:
-    """
-    ainve = 0.0
+    ainve = 0.0"""
+    
+    pi=3.141592654
+    temp=0.0 """in python, a variable's name should differ from its function's name"""
     for i in range (n1,n2):
-        ri  = r(i+1)
+        ri  = r(i+1) """how many elements are contained in r?"""
         ri2 = ri * ri
         ri3 = ri2 * ri
         ri4 = ri2 * ri2
@@ -480,7 +482,11 @@ def ainve(r,c,n1,n2):
         beta = (((ri14-ri4)/4.)-((ri13*ri-ri4)/3.))/v
         beta = 1. + beta/(ri1-ri)
         if i==1
-
+			beta=0.6
+		temp=temp+v * (beta*c(i+1)+(1.0-beta)*c(i))	
+	temp=4.0*pi*temp
+	return temp
+		
 
 def sicor(tt):
     """
@@ -521,29 +527,286 @@ aa = sicor(700.)
 print(aa)
 
 
-def qupor(globa.zeit2['zeit']):
+def qupor(zeit):
 	"""Time and location dependent function for FP-source term in the graphite pores."""
 	pi43=4.188790207
-	V=pi43 * (global.geod['rbe']**3)
-	return global.quell['q1'] * global.kont['ukongp']/v
+	V=pi43 * (globalVar.geod['rbe']**3)
+	return globalVar.quell['q1'] * globalVar.kont['ukongp']/v
 
 def quellp(i):
 	"""Time and location dependent function for FP-source term in particle"""
 	pi43=4.188790207
-	global.quell['qgesam']=1.0
-	global.quell['q1']=0.0
-	global.quell['qakt']=global.quell['qgesam']
-	if global.zeit2['zeit'] <= global.quell['zeit0']:
-		ex=global.nukdat['zerfk']*global.quell['zeit0']
+	globalVar.quell['qgesam']=1.0
+	globalVar.quell['q1']=0.0
+	globalVar.quell['qakt']=globalVar.quell['qgesam']
+	if globalVar.zeit2['zeit'] <= globalVar.quell['zeit0']:
+		ex=globalVar.nukdat['zerfk']*globalVar.quell['zeit0']
 		if ex>50.:
 			ex=50.
-		global.quell['q1']=global.nukdat['zerfk']/(1.0-math.exp(-ex))
-		ex=global.nukdat['zerfk'] * global.zeit2['zeit']
+		globalVar.quell['q1']=globalVar.nukdat['zerfk']/(1.0-math.exp(-ex))
+		ex=globalVar.nukdat['zerfk'] * globalVar.zeit2['zeit']
 		if ex>50.:
 			ex=50.0
-		global.quell['qakt']=global.quell['q1'] * (1.0-math.exp(-ex))/global.nukdat['zerfk']
+		globalVar.quell['qakt']=globalVar.quell['q1'] * (1.0-math.exp(-ex))/globalVar.nukdat['zerfk']
 	
 	r1=0.0
 	if i>1:
-		r1=global.global.geod['rcp'][i-1]**3
+		r1=globalVar.globalVar.geod['rcp'][i-1]**3
+	V=pi43 * (globalVar.geod['rcp'][i]**3 - r1)
+	return globalVar.quell['q1'] * globalVar.kont['ukontp'][i]/V/globalVar.geod['pzahl0']
 	
+def quellk(zeit):
+	"""Time and location dependent function for FP-source term in the graphite grains"""
+	pi43=4.188790207
+	V=pi43 * globalVar.geod['rkorn']**3
+	return globalVar.quell['q1'] * globalVar.kont['ukongk']/V
+	
+def pbruch(zeit, temper):
+	"""Particle failure function, it only contains C?"""
+	
+def difpad(t,i):
+	"""Diffusion coeff. for particle kernel of defective CP. I: number of particle zone, 1=center."""
+	r=8.3143
+	dcpa=0.0
+	if i==1:
+		if globalVar.outst['ngnr']==4:
+			"""iodine"""
+			ddp1=8.75e-11
+			aap1=54.4e3
+			ddp2=6002.0
+			aap2=480.0e3
+			dcpa=ddp1 * math.exp(-aap1/r/t)
+			dcpa=dcpa + ddp2 * math.exp(-aap2/r/t)
+		elif globalVar.outst['ngnr']==1:
+			"""cesium"""
+			ddp1=5.62e-4
+			aap1=209.0e3
+			ddp2=5.2
+			aap2=362.0e3
+			dcpa=ddp1 * math.exp(-aap1/r/t)
+			dcpa=dcpa + ddp2 * math.exp(-aap2/r/t)
+			
+	return dcpa * globalVar.diff['fodpk']
+	
+def difpa(t,i):
+	"""Diffusion coeff. For particle kernel and layers. I: number of particle zone, 1=center."""
+	r=8.3143
+	dcpa=0.0
+	j=i
+	if j>5:
+		print('*** ATTENTION: FUNCTION DIFPA ***')
+		print(' J > MAX. DIMENSION OF 5')
+		"""got 200?"""
+	ddp=globalVar.diff['dop'][j]
+	aap=globalVar.diff['akp'][j]
+	
+	if globalVar.outst['ifbiso']==0:
+		if j==1:
+			"""goto 10"""
+			if ddp!=0 or aap!=0:
+				dcpa = ddp * math.exp(-aap/r/t) """line 100"""
+				return dcpa * 1.0 """line 200"""
+			if globalVar.outst['ngnr']==4:
+				ddp1=8.75e-11
+				aap1=54.4e3
+				ddp2=6002.0
+				aap2=480e3
+				dcpa=ddp1*math.exp(-aap1/r/t)
+				dcpa=dcpa + ddp2*math.exp(-aap2/r/t)
+				dcpa=dcpa * globalVar.diff['fopk']
+				return dcpa * 1.0 """line 200"""		
+			if globalVar.outst['ngnr']==1:
+				ddp1=5.62e-4
+				aap1=209.0e3
+				ddp2=5.2
+				aap2=362.0e3
+				dcpa=ddp1*math.exp(-aap1/r/t)
+				dcpa=dcpa + ddp2*math.exp(-aap2/r/t)
+				dcpa=dcpa * globalVar.diff['fopk']
+				return dcpa * 1.0 """line 200"""
+			if globalVar.outst['ngnr']==2 and globalVar.outst['ngnr']==1:
+				if globalVar.zeit2['zeit'] > globalVar.quell['zeit0']:
+					ddp=6.6e2
+					ddp=ddp * globalVar.diff['fopk']
+					aap=488.0e3
+				else:
+					ddp=2.3e-1
+					ddp=ddp * globalVar.diff['fopk']
+					aap=409.0e3
+				dcpa = ddp * math.exp(-aap/r/t) """line 100"""
+			return dcpa * 1.0 """line 200"""
+			
+		elif j==2:
+			"""goto 30"""
+			if t<2173:
+				ddp=1.0e-4
+				aap=0.0
+				dcpa = ddp * math.exp(-aap/r/t) """line 100"""
+				
+		elif j==3 or j==5:
+			"""goto 20"""
+			if t<2173:
+				dcpa = ddp * math.exp(-aap/r/t) """line 100"""
+				
+		elif j==4:
+			"""goto 40"""
+			if ddp!=0 or aap!=0:
+				dcpa = ddp * math.exp(-aap/r/t) """line 100"""
+		
+			if globalVar.zeit2['zeit']>globalVar.quell['zeit0']:
+				if globalVar.outst['ngnr']==1:
+					"""MYERS (1983) LOW TEMPERATURE BRANCH"""
+					ddp1=6.7e-10
+					aap1=106.0e3
+					"""MYERS (1983) HIGH TEMPERATURE BRANCH FOR COLUMNAR SIC
+					ddp2=2.4e2
+					aap2=482.0e3
+					MYERS (1983) HIGH TEMPERATURE BRANCH FOR LAMINAR SIC
+					ddp2=1.12
+					aap2=437.0e3"""
+					"""VERFONDERN (1990) HIGH TEMPERATURE BRANCH (default use in triacFresh)"""
+					ddp2=1.59e2
+					aap2=514.0e3
+					dcpa=ddp1 * math.exp(-aap1/r/t)
+					dcpa=dcpa + ddp2*math.exp(-aap2/r/t)
+					dcpa=dcpa + globalVar.diff['fopsic']
+					return dcpa * 1.0 """line 200"""
+			
+				if globalVar.outst['ngnr']==2:
+					ddp1=1.2e-5
+					aap1=205.0e3
+					ddp2=2.4e2
+					aap2=482.0e3
+					dcpa=ddp1 * math.exp(-aap1/r/t)
+					dcpa=dcpa + ddp2*math.exp(-aap2/r/t)
+					dcpa=dcpa + globalVar.diff['fopsic']
+					return dcpa * 1.0 """line 200"""
+				return dcpa * 1.0 """line 200"""
+			else:
+				if globalVar.outst['ngnr']==1:
+					if globalVar.real1['gamma']>0:
+				ff=globalVar.real1['gamma']
+				ff=ff/5.0 * (globalVar.zeit2['zeit']/globalVar.quell['zeit0'])
+				ddp=5.5e-10 * math.exp(ff)
+				aap=125.0e3
+			else:
+				ddp=1.8e-7
+				aap=176.0e3
+			dcpa = ddp * math.exp(-aap/r/t) """line 100"""
+		elif globalVar.outst['ngnr']==2:	
+			ddp=1.2e-5
+			aap=215.0e3
+			dcpa = ddp * math.exp(-aap/r/t) """line 100"""
+		elif globalVar.outst['ngnr']==3:
+			ff=globalVar.real1['gamma']
+			ff=ff/1.11
+			zf=globalVar.zeit2['zeit']/globalVar.quell['zeit0']
+			ff=ff*zf
+			ddp=2.97e-6 * math.exp(ff)
+			aap=215.0e3
+			dcpa = ddp * math.exp(-aap/r/t) """line 100,  inisiatif (krn struktur if lain dari ngnr selalu menuju line 100)"""
+		else:
+			ddp=3.6e=-5
+			aap=215.0e3
+			dcpa = ddp * math.exp(-aap/r/t) """line 100"""
+		return dcpa * 1.0 """line 200"""
+			
+	else:
+		if j==1:
+			"""goto 10 (sama spt if di atas)"""
+			if ddp!=0 or aap!=0:
+				dcpa = ddp * math.exp(-aap/r/t) """line 100"""
+				return dcpa * 1.0 """line 200"""
+			if globalVar.outst['ngnr']==4:
+				ddp1=8.75e-11
+				aap1=54.4e3
+				ddp2=6002.0
+				aap2=480e3
+				dcpa=ddp1*math.exp(-aap1/r/t)
+				dcpa=dcpa + ddp2*math.exp(-aap2/r/t)
+				dcpa=dcpa * globalVar.diff['fopk']
+				return dcpa * 1.0 """line 200"""		
+			if globalVar.outst['ngnr']==1:
+				ddp1=5.62e-4
+				aap1=209.0e3
+				ddp2=5.2
+				aap2=362.0e3
+				dcpa=ddp1*math.exp(-aap1/r/t)
+				dcpa=dcpa + ddp2*math.exp(-aap2/r/t)
+				dcpa=dcpa * globalVar.diff['fopk']
+				return dcpa * 1.0 """line 200"""
+			if globalVar.outst['ngnr']==2 and globalVar.outst['ngnr']==1:
+				if globalVar.zeit2['zeit'] > globalVar.quell['zeit0']:
+					ddp=6.6e2
+					ddp=ddp * globalVar.diff['fopk']
+					aap=488.0e3
+				else:
+					ddp=2.3e-1
+					ddp=ddp * globalVar.diff['fopk']
+					aap=409.0e3
+				dcpa = ddp * math.exp(-aap/r/t) """line 100"""
+			return dcpa * 1.0 """line 200"""
+			
+		elif j==2:
+			"""goto 30 (masih sama spt if di atas)"""
+			if t<2173:
+				ddp=1.0e-4
+				aap=0.0
+				dcpa = ddp * math.exp(-aap/r/t) """line 100"""
+				
+		elif j==3:
+			"""goto 50"""
+			if ddp!=0.0 or aap!=0.0:
+				dcpa = ddp * math.exp(-aap/r/t) """line 100"""
+			else:
+				dcpa=1.8e3 * math.exp(-493.0e3/r/t) + 2.8e-3 * math.exp(-2.91e5/r/t)
+			return dcpa * 1.0 """line 200"""
+			
+		return dcpa * 1.0 """line 200"""
+
+def adsorp(t,c):
+	"""Calculation of ratio between boundary layer concentration and surface concentration from sorption isotherm for A3 Matrix graphite"""
+	tgr=[1623.0,1973.0]
+	alt=[25.60,25.97]
+	blt=[-46297.0,-63537.0]
+	agt=[25.78,22.09]
+	bgt=[-46769.0,-53150.0]
+	egt=[-1.4824 ,-2.045]
+	fgt=[3867.0, 5475.0]
+	con=9.488750173e-19
+	arc=1.0
+	if (globalVar.adsoc['ifadc']!= -1 or globalVar.outst['ngnr'] != 3 or globalVar.outst['ngnr'] != 4 or t <= globalVar.adsoc['tgrenc']):
+		cnl=c*real1['xn0']
+		cnl=cnl*con
+		if cnl > globalVar.adsoc['cgrenc']:
+			if t > tgr[globalVar.outst['ngnr']]:
+				"""can we make sure the value of ngnr is 0 or 1 based on the number of element in tgr, agt, bgt, egt, fgt?"""
+				ex1 = agt[globalVar.outst['ngnr']] + bgt[globalVar.outst['ngnr']] / t
+				ex2 = (egt[globalVar.outst['ngnr']] + fgt[globalVar.outst['ngnr']] / t) * math.log10(cnl)
+			else:
+				ex1 = globalVar.adsoc['anci'] + globalVar.adsoc['bnci'] / t
+				ex2 = (globalVar.adsoc['enci'] + globalVar.adsoc['fnci'] / t) * math.log10(cnl)
+			if (ex2 > 150.0):
+				ex2 = 150.0
+			arc = math.exp(ex1) * math.exp(ex2) / t
+		else:
+			if t > tgr[globalVar.outst['ngnr']]:
+				ex0 = alt[globalVar.outst['ngnr']] + blt[globalVar.outst['ngnr']] / t
+			else:
+				ex0 = globalVar.adsoc['aci'] + globalVaradsoc['bci'] / t
+			arc = math.exp(ex0) / t
+		if arc < 1.0e-20: 
+			arc = 1.0e-20
+	else:
+		return arc*1.0 """line 200"""
+
+def zoza(r,n):
+	"""Determine number of zones with different transport data"""
+	r=[]
+	n=1
+	for i in range(1,5):
+		if r[i] >= r[i-1]: """where the variable r was declared, to how many elements it contained is unclear"""
+			n=i
+		else:
+			return n """it seems that this sub routine return n, because n is modifeid here"""
+	return n
