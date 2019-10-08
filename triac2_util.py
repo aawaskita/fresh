@@ -801,8 +801,9 @@ def adsorp(t,c):
 		return arc*1.0 """line 200"""
 
 def zoza(r,n):
-	"""Determine number of zones with different transport data"""
-	r=[]
+	"""Determine number of zones with different transport data
+	r=np.zeros(5).tolist()
+	r is an argument, why it should be re-declared?"""
 	n=1
 	for i in range(1,5):
 		if r[i] >= r[i-1]: """where the variable r was declared, to how many elements it contained is unclear"""
@@ -810,3 +811,184 @@ def zoza(r,n):
 		else:
 			return n """it seems that this sub routine return n, because n is modifeid here"""
 	return n
+	
+def recoil():
+	"""Calculation of recoil release from particle kernel, particle, and fuel element. The arguments q, rcfrpk, rcfrp have already defined in globalVar"""
+	pi43=4.188790207
+	
+	
+	
+def radif(r,n,r2,n1,n2):
+	"""Partition of sphere in zones for diffusion calculations"""
+	
+	n=0
+	for i in range(n1):
+		n=n+n2(i)
+	iz=2
+	r[0]=0.0
+	r1=0.0
+	for i in range(n1):
+		dr=(r2[i]-r1)/float(n2[i])
+		nj=n2(i)
+		for j in range(nj):
+			r[iz]=r[iz-1]+dr
+			iz=iz+1
+		r1=r2[i]
+	return
+
+def sicor(tt):
+	"""CALCULATION OF THINNING OF SIC-LAYER DUE TO CORROSION"""
+	globalVar.sic['msic']=0
+	globalVar.sic['alsic']=0.0
+	"""CORROSION RATE AFTER MONTGOMERY"""
+	svrat=-6.23-0.94e4/tt
+	
+	"""CORROSION RATE AFTER GOODIN
+	svrat=5.61-3.94e4/tt"""
+	
+	zehn=10.0
+	svrat=svrat * math.log10(zehn)
+	svrat=math.exp(svrat) * 100
+	globalVar.sic['dkor']=globalVar.sic['dkor'] + svrat*globalVar.zeit2['dzeit']
+	if globalVar.sic['dkor']>globalVar.sic['ds0']:
+		globalVar.sic['dkor'] = globalVar.sic['ds0']
+	globalVar.sic['alsic']=globalVar.sic['ds0']-globalVar.sic['dkor']
+	globalVar.sic['dif']=abs(globalVar.sic['dkor']/globalVar.sic['ds0'])*100
+	globalVar.sic['msic']=globalVar.sic['dkor']/globalVar.sic['dsic']
+	return
+
+def padiff(frei, c00):
+	"""Calculation of fission product diffusion from particles and from graphite grains (recoil is taken into account in the source functions)"""
+	pi=3.141592654
+	ibruch=0
+	uezp=50.0
+	"""PBR = PBRUCH(ZEIT,TEMPER) does not have an implementation"""
+	freibr=0.0
+	if ibruch>0:
+		for i in range(ibruch):
+			globalVar.freiby[i]=0.0 """in globalVar, freiby was declared as 10 element array, than ibruch can not exceed 10"""
+	
+	if pbr > globalVar.cpbru['pbra']:
+		if iburch==10:
+			"""program telling something to the user"""
+			delbruch=0.0
+			for i in range(ibruch):
+				delbruch=delbruch+globalVar.cpbru['pzahld'][i]/globalVar.geod['pzahl0']
+			"""program telling something to the user"""
+		ibruch=ibruch+1
+		ibr=ibruch
+		n1=globalVar.geodi['nrc'][0]+1
+		for i in range(n1):
+			globalVar.konz['cpb'][i][ibruch]=globalVar.konz['cp'][i] """should be re-check again"""
+		globalVar.cpbru['pzahli'] = globalVar.geod['pzahl0'] * (1.0-pbr) """from where are the pbr comes?"""
+		globalVar.cpbru['pzahld'][ibruch] = globalVar.geod['pzahl0'] * (pbr-globalVar.cpbru['pbra'])
+		globalVar.cpbru['pbra']=pbr """how could a value of a variable from no where can be used to be assigned to a declared variable?"""
+		freibr=ainve(globalVar.geod['rp'],globalVar.konz['cp'],n1,globalVar.geodi['npp'])/globalVar.zeit2['dzeit']*globalVar.cpbru['pzahld']
+		globalVar.freiby[ibruch]
+	
+	"""line 10"""
+	if globalVar.outst['ifsick'] !=0 and globalVar.outst['ifbiso'] !=1:
+		"""It seems that the following sub routine is called by reference, no variable used to stored the calculation result"""
+		sicor(globalVar.tradat['temper'])
+	iz=1
+	for i in range(globalVar.geodi['nrp']):
+		nj=globalVar.geodi['nrc'][i]
+		qpi=quellp(i)
+		globalVar.tradat['difkcp'][i]=difpa(globalVar.tradat['temper'],i)
+		globalVar.difdcp[i]=difpad(globalVar.tradat['temper'],i)
+		nssa=iz-1
+		for j in range(nj):
+			globalVar.qp[iz]=qpi
+			globalVar.dip[iz]=globalVar.tradat['difkcp'][i]
+			globalVar.did[iz]=globalVar.difdcp[i]
+			iz=iz+1 """should be re-check again"""
+		if i == globalVar.sic['isic'] or globalVar.sic['msic'] != 0:
+			for n in range(globalVar.sic['msic']):
+				globalVar.dip[nssa+n]=globalVar.tradat['difkcp'][i-1]
+		
+	"""line 50"""
+	if globalVar.recr['recker'] > 0 or globalVar.recr['recpyc'] > 0:
+		recoil()
+	globalVar.tradat['difgk']=difko(globalVar.tradat['temper'])
+	for i in range(globalVar.geodi['nko']):
+		globalVar.dik[i]=globalVar.tradat['difgk']
+		globalVar.qk[i]=quelk(globalVar.zeit2['zeit']) """should be re-check again"""
+	dti=1.0/globalVar.zeit2['dzeit']
+	globalVar.frerat['freid']=0.0
+	globalVar.recfr['rcfrdf']=0.0
+	if ibruch>=0:
+		for i in range(ibruch):
+			"""kudif(globalVar.geodi['nrc'][0]) will be discussed later"""
+			fr1=globalVar.cpbru['pzahld'][i] * uezp * (globalVar.konz['cpb'][globalVar.geodi['nrc'][0]+1,i]-c00) * 4.0 * pi * globalVar.geod['rp'][globalVar.geodi['nrc'][0]+1]**2
+			rc1=globalVar.cpbru['pzahld'][i] * globalVar.recfr['rcfrpk']
+			globalVar.recfr['rcfrdf']=globalVar.recfr['rcfrdf']+rc1
+			globalVar.frerat['freid']+fr1+rc1
+			globalVar.freidy[i]=fr1+rc1
+
+	"""line 30 & 31"""
+	"""KUDIF(NPP,RP,DTI,UEZP,DIP,QP,ZERFK,C00,CP,AICPI) will be discussed later"""
+	globalVar.frerat['freii']=globalVar.cpbru['pzahli'] * uezp * (globalVar.konz['cp'][globalVar.geodi['npp']+1]-c00) * 4.0 * pi * globalVar.geod['rp'][globalVar.geodi['npp']+1]**2
+	rcfri=globalVar.cpbru['pzahli']*globalVar.recfr['rcfrp']
+	globalVar.frerat['freii']=globalVar.frerat['freii']+rcfri
+	globalVar.frerat['freiko']=0.0
+	if globalVar.invent['aigk'] >=	1.0e-7*globalVar.nukdat['ainv']:
+		"""KUDIF(NKO,RKO,DTI,UEZP,DIK,QK,ZERFK,C00,CK,AIGK) will be discussed later"""
+		globalVar.frerat['freiko'] = uezp * (globalVar.konz['ck'][globalVar.geodi['nko']+1]-c00) * 4.0 * pi * globalVar.geod['rko'][globalVar.geodi['nko']+1]**2
+		
+	"""line 300"""
+	frei=freibr+globalVar.frerat['freid']+globalVar.frerat['freii']+globalVar.frerat['freiko']
+	globalVar.frerat['frecpg']=frei
+	globalVar.recfr['rcfra']=globalVar.recfr['rcfrdf']+rcfri
+	
+	n1=1
+	for i in range(globalVar.geodi['nrp']):
+		n2=n1+globalVar.geodi['nrc'][i]-1
+		globalVar.invent['aicp'][i]=ainve(globalVar.geod['rp'],globalVar.konz['cp'],n1,n2)
+		n1=n2+1 """should be re-check again"""
+		
+	globalVar.invent['aicpdg']=0.0
+	if ibruch > 0:
+		for i in range(ibruch):
+			globalVar.invent['aicpdg']=globalVar.invent['aicpdg']+globalVar.invent['aicpd'][i]+globalVar.cpbru['pzahld'][i]
+	
+	globalVar.invent['aicpg'] = globalVar.invent['aicpi'] * globalVar.cpbru['pzahli'] + globalVar.invent['aicpdg']
+	globalVar.invent['aicpk'] = globalVar.invent['aicp'][0] * globalVar.cpbru['pzahli'] + globalVar.invent['aicpdg']
+	
+	fzerfa = globalVar.nukdat['zerfk'] * globalVar.zeit2['dzeit']
+	if fzerfa > 1.0e-5:
+		fzerfa = 1.0 - math.exp(-fzerfa)
+	fzerfa=1.0-fzerfa
+	
+	nkern=globalVar.geodi['nrc'][0]
+	ratk = globalVar.geodi['nrc'][nkern] * (globalVar.konz['cp'][nkern]-globalVar.konz['cp'][nkern-1])/(globalVar.geod['rp'][nkern+1]-globalVar.geod['rp'][nkern])
+	ratk = ratk * (4.0 * pi * globalVar.geod['rp'][nkern+1]**2 ) * globalVar.cpbru['pzahli']
+	globalVar.relea['relk'] = globalVar.relea['relk'] * fzerfa + (ratk + globalVar.frerat['freid'])*globalVar.zeit2['dzeit']
+	
+	globalVar.relrec['relrpk'] = (globalVar.relrec['relrpk'] * fzerfa) + (globalVar.recfr['rcfrpk']*globalVar.zeit2['dzeit'])
+	globalVar.relrec['relrp'] = (globalVar.relrec['relrp'] * fzerfa) + (globalVar.recfr['rcfrp']*globalVar.zeit2['dzeit']) 
+	globalVar.relrec['relrdf'] = (globalVar.relrec['relrdf'] * fzerfa) + (globalVar.recfr['rcfrdf']*globalVar.zeit2['dzeit'])
+	globalVar.relrec['relra'] = (globalVar.relrec['relra'] * fzerfa) + (globalVar.recfr['rcfra']*globalVar.zeit2['dzeit'])
+	
+	globalVar.relea['relint'] = (globalVar.relea['relint']*fzerfa) + (globalVar.frerat['freii']*globalVar.zeit2['dzeit'])
+	globalVar.relea['reldef'] = (globalVar.relea['reldef']*fzerfa) + (freibr+globalVar.frerat['freid'])*globalVar.zeit2['dzeit']
+ 	globalVar.relea['relcpg'] = (globalVar.relea['relcpg']*fzerfa) + (freibr+globalVar.frerat['freid']+globalVar.frerat['freii'])*globalVar.zeit2['dzeit'] 
+	
+	if ibruch>0:
+		for i in range(ibruch):
+			globalVar.parrel['reld'][i]=globalVar.parrel['reld'][i]*fzerfa + (globalVar.freiby[i]+globalVar.freidy[i])*globalVar.zeit2['dzeit']
+
+	globalVar.relea['relgk'] = (globalVar.relea['relgk']*fzerfa) + (globalVar.frerat['freiko']*globalVar.zeit2['dzeit'])
+	
+	an1=globalVar.relea['relk'] + globalVar.invent['aicpk']
+	an2=globalVar.relea['relcpg'] + globalVar.invent['aicpg']
+	an3=globalVar.relea['relgk'] + globalVar.invent['aigk']
+	if an1 > 0.0:
+		globalVar.cpbru['freik'] = globalVar.relea['relk']/an1
+		
+	if an2 > 0.0:
+		globalVar.cpbru['frcp'] = globalVar.relea['relcpg']/an2
+		
+	if an3 > 0.0:
+		globalVar.cpbru['frgk'] = globalVar.relea['relgk']/an3
+	
+	return

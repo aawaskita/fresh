@@ -1,9 +1,11 @@
+import numpy as np
+
 geod={}
 geod['rbe']=[]
 geod['rcp']=[]
 geod['rkorn']=0
 geod['rb']=[]
-geod['rp']=[]
+geod['rp']=np.zeros(200).tolist() """defined as 200 element array in padiff sub routine"""
 geod['rko']=[]
 geod['pzahl0']=0
 
@@ -13,8 +15,8 @@ geodi['nrp']=0
 geodi['npb']=0
 geodi['npp']=0
 geodi['nko']=0
-geodi['nrb']=[] """jumlah elemennya ditentukan oleh nrbe"""
-geodi['nrc']=[]	"""jumlah elemennya ditentukan oleh nrp"""
+geodi['nrb']=np.zeros(5).tolist() """defined as 5 element array in padiff, determined by nrbe otherwise"""
+geodi['nrc']=np.zeros(5).tolist() """defined as 5 element array in padiff, determined by nrp otherwise"""
 
 adsoc={}
 adsoc['aci']=0
@@ -30,7 +32,7 @@ adsoc['ifadc']=0
 cpbru={}
 cpbru['pbra']=0
 cpbru['pzahli']=0
-cpbru['pzahld']=[]
+cpbru['pzahld']=np.zeros(10).tolist()
 cpbru['freik']=0
 cpbru['frcp']=0
 cpbru['frb']=0
@@ -59,7 +61,7 @@ frerat['freibe']=0
 invent={}
 invent['aicp']=[] """jumlah elemennya ditentukan nrp"""
 invent['aicpi']=0
-invent['aicpd']=[]
+invent['aicpd']=np.zeros(10).tolist()
 invent['aicpk']=0
 invent['aicpdg']=[]
 invent['aicpg']=0
@@ -75,17 +77,17 @@ kont['ukongp']=0
 kont['ukontp']=[]
 
 konz={}
-konz['cb']=[]
-konz['ck']=[]
-konz['cp']=[]
-konz['cpb']=[]
+konz['cb']=np.zeros(200).tolist()
+konz['ck']=np.zeros(200).tolist()
+konz['cp']=np.zeros(200).tolist()
+konz['cpb']=np.zeros(shape=(50,10),dtype=float)
 
 nukdat={}
 nukdat['ainv']=0
 nukdat['zerfk']=0
 
 outst={}
-outst['iopt']=[]
+outst['iopt']=np.zeros(20).tolist()
 outst['ioptpl']=0
 outst['ifplot']=0
 outst['ifbiso']=0
@@ -158,9 +160,9 @@ relrec['relrbe']=0
 
 tradat={}
 tradat['temper']=0
-tradat['difgp']=[]
+tradat['difgp']=np.zeros(5).tolist()
 tradat['difgk']=0
-tradat['difkcp']=[]
+tradat['difkcp']=np.zeros(5).tolist()
 
 ueber=''
 title=''
@@ -181,7 +183,7 @@ rio['nfrk']=0
 rio['nfrkm']=0
 
 sic={}
-sic['alsic']=0
+sic['alsic']=0.0
 sic['ds0']=0
 sic['dkor']=0
 sic['dsic']=0
@@ -201,5 +203,56 @@ adsoc['enci']=0
 adsoc['fnci']=0
 adsoc['ifadc']=0
 
-di=[]
-q=[]
+int1={}
+int1['lrcp']=0
+int1['lncp']=0
+int1['lzs']=0
+
+int2={}
+int2['ircp']=0
+int2['izs']=0
+int2['ns']=0
+
+"""Variables that defined as DIMENSIONS in fortran. Most of them were returned back to list after declaring using numpy, while some of them remain in numpy format"""
+
+"""a=np.zeros(200).tolist() declared as different number of elements"""
+abw=np.zeros(60).tolist()
+acp=np.zeros(60).tolist()
+afrei=np.zeros(60).tolist()
+agk=np.zeros(60).tolist()
+agp=np.zeros(60).tolist()
+akern=np.zeros(60).tolist()
+"""b=np.zeros(200).tolist() declared as different number of elements"""
+betas=np.zeros(200).tolist()
+bil=np.zeros(60).tolist()
+"""c=np.zeros(200).tolist() in kudif subroutine, otherwise it was declared as 5 element array"""
+cbruch=np.zeros(50).tolist()
+cpdef=np.zeros(60).tolist()
+d=np.zeros(200).tolist()
+di=np.zeros(200).tolist()
+did=np.zeros(200).tolist()
+difdcp=np.zeros(5).tolist()
+difg=np.zeros(shape=(5,60), dtype=float)
+difk=np.zeros(60).tolist()
+difp=np.zeros(shape=(5,60), dtype=float)
+dik=np.zeros(200).tolist()
+dip=np.zeros(200).tolist()
+frbe=np.zeros(60).tolist()
+freiby=np.zeros(10).tolist()
+freidy=np.zeros(10).tolist()
+frk=np.zeros(60).tolist()
+frp=np.zeros(60).tolist()
+isp=np.zeros(60).tolist()
+iopt1=np.zeros(20).tolist()
+q=np.zeros(200).tolist()
+q11=np.zeros(60).tolist()
+qa=np.zeros(60).tolist()
+qk=np.zeros(200).tolist()
+qp=np.zeros(200).tolist()
+r=np.zeros(200).tolist()
+"""sp=np.zeros(shape=(5,60),dtype=float) in out18 sub routine, it was declared as 3,60 2D element matrix"""
+t=np.zeros(200).tolist()
+tem=np.zeros(60).tolist()
+v=np.zeros(200).tolist()
+zeit1=np.zeros(60).tolist()
+
