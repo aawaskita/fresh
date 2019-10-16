@@ -3,10 +3,10 @@ import numpy as np
 geod={}
 geod['rbe']=[]
 geod['rcp']=[]
-geod['rkorn']=0
+geod['rkorn']=0.0
 geod['rb']=[]
-geod['rp']=np.zeros(200).tolist() """defined as 200 element array in padiff sub routine"""
-geod['rko']=[]
+geod['rp']=[] """defined as 200 element array in padiff sub routine, but added manually when input data"""
+geod['rk0']=[]
 geod['pzahl0']=0
 
 geodi={}
@@ -14,7 +14,7 @@ geodi['nrbe']=0
 geodi['nrp']=0
 geodi['npb']=0
 geodi['npp']=0
-geodi['nko']=0
+geodi['nk0']=0
 geodi['nrb']=np.zeros(5).tolist() """defined as 5 element array in padiff, determined by nrbe otherwise"""
 geodi['nrc']=np.zeros(5).tolist() """defined as 5 element array in padiff, determined by nrp otherwise"""
 
@@ -39,17 +39,17 @@ cpbru['frb']=0
 cpbru['frgk']=0
 
 diff={}
-diff['dog']=0
+diff['d0g']=0
 diff['akg']=0
-diff['dok']=0
+diff['d0k']=0
 diff['akk']=0
-diff['dop']=[]
+diff['d0p']=[]
 diff['akp']=[]
-diff['fog']=0
-diff['fogk']=0
-diff['fopk']=0
-diff['fopsic']=0
-diff['fodpk']=0
+diff['f0g']=0
+diff['f0kg']=0
+diff['f0pk']=0
+diff['f0psic']=0
+diff['f0pdpk']=0
 
 frerat={}
 frerat['freii']=0
@@ -168,9 +168,9 @@ ueber=''
 title=''
 
 zeits={}
-zeits['te']=[]
-zeits['dt']=[]
-zeits['dtout']=[]
+zeits['te']=np.zeros(5).tolist()
+zeits['dt']=np.zeros(5).tolist()
+zeits['dtout']=np.zeros(5).tolist()
 
 zeit2={}
 zeit2['zeit']=0

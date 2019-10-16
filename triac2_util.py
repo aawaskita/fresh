@@ -597,7 +597,7 @@ def difpa(t,i):
 		print('*** ATTENTION: FUNCTION DIFPA ***')
 		print(' J > MAX. DIMENSION OF 5')
 		"""got 200?"""
-	ddp=globalVar.diff['dop'][j]
+	ddp=globalVar.diff['d0p'][j]
 	aap=globalVar.diff['akp'][j]
 	
 	if globalVar.outst['ifbiso']==0:
@@ -613,7 +613,7 @@ def difpa(t,i):
 				aap2=480e3
 				dcpa=ddp1*math.exp(-aap1/r/t)
 				dcpa=dcpa + ddp2*math.exp(-aap2/r/t)
-				dcpa=dcpa * globalVar.diff['fopk']
+				dcpa=dcpa * globalVar.diff['f0pk']
 				return dcpa * 1.0 """line 200"""		
 			if globalVar.outst['ngnr']==1:
 				ddp1=5.62e-4
@@ -622,16 +622,16 @@ def difpa(t,i):
 				aap2=362.0e3
 				dcpa=ddp1*math.exp(-aap1/r/t)
 				dcpa=dcpa + ddp2*math.exp(-aap2/r/t)
-				dcpa=dcpa * globalVar.diff['fopk']
+				dcpa=dcpa * globalVar.diff['f0pk']
 				return dcpa * 1.0 """line 200"""
 			if globalVar.outst['ngnr']==2 and globalVar.outst['ngnr']==1:
 				if globalVar.zeit2['zeit'] > globalVar.quell['zeit0']:
 					ddp=6.6e2
-					ddp=ddp * globalVar.diff['fopk']
+					ddp=ddp * globalVar.diff['f0pk']
 					aap=488.0e3
 				else:
 					ddp=2.3e-1
-					ddp=ddp * globalVar.diff['fopk']
+					ddp=ddp * globalVar.diff['f0pk']
 					aap=409.0e3
 				dcpa = ddp * math.exp(-aap/r/t) """line 100"""
 			return dcpa * 1.0 """line 200"""
@@ -669,7 +669,7 @@ def difpa(t,i):
 					aap2=514.0e3
 					dcpa=ddp1 * math.exp(-aap1/r/t)
 					dcpa=dcpa + ddp2*math.exp(-aap2/r/t)
-					dcpa=dcpa + globalVar.diff['fopsic']
+					dcpa=dcpa + globalVar.diff['f0psic']
 					return dcpa * 1.0 """line 200"""
 			
 				if globalVar.outst['ngnr']==2:
@@ -679,7 +679,7 @@ def difpa(t,i):
 					aap2=482.0e3
 					dcpa=ddp1 * math.exp(-aap1/r/t)
 					dcpa=dcpa + ddp2*math.exp(-aap2/r/t)
-					dcpa=dcpa + globalVar.diff['fopsic']
+					dcpa=dcpa + globalVar.diff['f0psic']
 					return dcpa * 1.0 """line 200"""
 				return dcpa * 1.0 """line 200"""
 			else:
@@ -724,7 +724,7 @@ def difpa(t,i):
 				aap2=480e3
 				dcpa=ddp1*math.exp(-aap1/r/t)
 				dcpa=dcpa + ddp2*math.exp(-aap2/r/t)
-				dcpa=dcpa * globalVar.diff['fopk']
+				dcpa=dcpa * globalVar.diff['f0pk']
 				return dcpa * 1.0 """line 200"""		
 			if globalVar.outst['ngnr']==1:
 				ddp1=5.62e-4
@@ -733,16 +733,16 @@ def difpa(t,i):
 				aap2=362.0e3
 				dcpa=ddp1*math.exp(-aap1/r/t)
 				dcpa=dcpa + ddp2*math.exp(-aap2/r/t)
-				dcpa=dcpa * globalVar.diff['fopk']
+				dcpa=dcpa * globalVar.diff['f0pk']
 				return dcpa * 1.0 """line 200"""
 			if globalVar.outst['ngnr']==2 and globalVar.outst['ngnr']==1:
 				if globalVar.zeit2['zeit'] > globalVar.quell['zeit0']:
 					ddp=6.6e2
-					ddp=ddp * globalVar.diff['fopk']
+					ddp=ddp * globalVar.diff['f0pk']
 					aap=488.0e3
 				else:
 					ddp=2.3e-1
-					ddp=ddp * globalVar.diff['fopk']
+					ddp=ddp * globalVar.diff['f0pk']
 					aap=409.0e3
 				dcpa = ddp * math.exp(-aap/r/t) """line 100"""
 			return dcpa * 1.0 """line 200"""
@@ -910,7 +910,7 @@ def padiff(frei, c00):
 	if globalVar.recr['recker'] > 0 or globalVar.recr['recpyc'] > 0:
 		recoil()
 	globalVar.tradat['difgk']=difko(globalVar.tradat['temper'])
-	for i in range(globalVar.geodi['nko']):
+	for i in range(globalVar.geodi['nk0']):
 		globalVar.dik[i]=globalVar.tradat['difgk']
 		globalVar.qk[i]=quelk(globalVar.zeit2['zeit']) """should be re-check again"""
 	dti=1.0/globalVar.zeit2['dzeit']
@@ -933,7 +933,7 @@ def padiff(frei, c00):
 	globalVar.frerat['freiko']=0.0
 	if globalVar.invent['aigk'] >=	1.0e-7*globalVar.nukdat['ainv']:
 		"""KUDIF(NKO,RKO,DTI,UEZP,DIK,QK,ZERFK,C00,CK,AIGK) will be discussed later"""
-		globalVar.frerat['freiko'] = uezp * (globalVar.konz['ck'][globalVar.geodi['nko']+1]-c00) * 4.0 * pi * globalVar.geod['rko'][globalVar.geodi['nko']+1]**2
+		globalVar.frerat['freiko'] = uezp * (globalVar.konz['ck'][globalVar.geodi['nk0']+1]-c00) * 4.0 * pi * globalVar.geod['rk0'][globalVar.geodi['nk0']+1]**2
 		
 	"""line 300"""
 	frei=freibr+globalVar.frerat['freid']+globalVar.frerat['freii']+globalVar.frerat['freiko']
@@ -992,3 +992,28 @@ def padiff(frei, c00):
 		globalVar.cpbru['frgk'] = globalVar.relea['relgk']/an3
 	
 	return
+
+def instat():
+	"""Calculation of unsteady state fission product release"""
+	gm=0.0
+	tout=-1.0
+	if tout < 0.0:
+		tout = globalVar.zeits['dtout'][0]
+	ifjn=1
+	ifstop=0
+	for i in range(10):
+		globalVar.parrel['reld'][i]=0.0
+		
+	globalVar.parrel['reld']=0
+	while(True):
+		for i in range(5):
+			nzeit=i
+			if globalVar.zeit2['zeit'] >= globalVar.zeits['te'][i]:
+				break
+			else:
+				"""line 20"""
+				globalVar.zeit2['dzeit']=globalVar.zeits['dt'][nzeit]
+				if (globalVar.zeit2['dzeit']+globalVar.zeits['dt'][nzeit])>globalVar.zeits['dt'][nzeit]:
+					globalVar.zeit2['dzeit']=globalVar.zeits['te'][nzeit]-globalVar.zeit2['zeit']
+				if (globalVar.zeit2['dzeit']+globalVar.zeits['dt'][nzeit])>tout:
+					globalVar.zeit2['dzeit']=tout-globalVar.zeit2['zeit']
