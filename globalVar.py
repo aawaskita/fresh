@@ -5,7 +5,8 @@ geod['rbe']=[]
 geod['rcp']=[]
 geod['rkorn']=0.0
 geod['rb']=[]
-geod['rp']=[] """defined as 200 element array in padiff sub routine, but added manually when input data"""
+"""defined as 200 element array in padiff sub routine, but added manually when input data"""
+geod['rp']=[] 
 geod['rk0']=[]
 geod['pzahl0']=0
 
@@ -15,8 +16,10 @@ geodi['nrp']=0
 geodi['npb']=0
 geodi['npp']=0
 geodi['nk0']=0
-geodi['nrb']=np.zeros(5).tolist() """defined as 5 element array in padiff, determined by nrbe otherwise"""
-geodi['nrc']=np.zeros(5).tolist() """defined as 5 element array in padiff, determined by nrp otherwise"""
+"""defined as 5 element array in padiff, determined by nrbe otherwise"""
+geodi['nrb']=np.zeros(5).tolist() 
+"""defined as 5 element array in padiff, determined by nrp otherwise"""
+geodi['nrc']=np.zeros(5).tolist() 
 
 adsoc={}
 adsoc['aci']=0
@@ -59,7 +62,8 @@ frerat['freiko']=0
 frerat['freibe']=0
 
 invent={}
-invent['aicp']=[] """jumlah elemennya ditentukan nrp"""
+"""jumlah elemennya ditentukan nrp"""
+invent['aicp']=[] 
 invent['aicpi']=0
 invent['aicpd']=np.zeros(10).tolist()
 invent['aicpk']=0
@@ -126,7 +130,7 @@ real1['gamma']=0
 stopp={}
 stopp['ifstop']=0
 
-randb={}
+ranb={}
 ranb['stoffu']=0
 ranb['alpha']=0
 ranb['c00k']=0
@@ -212,6 +216,16 @@ int2={}
 int2['ircp']=0
 int2['izs']=0
 int2['ns']=0
+
+itemp={}
+itemp['ni0']=0
+itemp['ni']=0
+
+ttemp={}
+ttemp['azeit0']=[]
+ttemp['atemp0']=[]
+ttemp['azeit']=[]
+ttemp['atemp']=[]
 
 """Variables that defined as DIMENSIONS in fortran. Most of them were returned back to list after declaring using numpy, while some of them remain in numpy format"""
 

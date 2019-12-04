@@ -9,7 +9,7 @@ def readdata(namafile):
 	b=a.split('\t')
 	c=b[0].split(' ')
 	globalVar.outst['ngnr']=int(c[3])
-
+	
 	title=''
 	for i in range(4):
 		title=title+f.readline()
@@ -69,7 +69,6 @@ def readdata(namafile):
 	uk.append(temp3)
 	temp3=int(temp2[3])
 	uk.append(temp3)
-	data['uk']=uk
 	
 	rbe=[]                      
 	temp1=f.readline()
@@ -113,7 +112,7 @@ def readdata(namafile):
 	globalVar.real1['zeitpr']=float(temp2[2])
 	
 	"""fast neutron fluence at begin of the accident/heating phase"""
-	real1['gamma']=float(temp2[3])
+	globalVar.real1['gamma']=float(temp2[3])
     
 	rcp=[]            
 	"""first rcp, rcp[0] is the outer diam. of fuel kernel."""              
@@ -177,12 +176,13 @@ def readdata(namafile):
 	accitem=0
 	acc=[]
 	nrp=globalVar.geodi['nrp']
-	for i in range(nrp):
+	"""for i in range(nrp):"""
+	for i in range(5):
 		if i==0:
 			mesh.append(rcp[0]/nrc[0])
 			accitem=accitem+nrc[0]
 			acc.append(accitem)
-        else:
+		else:
 			mesh.append((rcp[i]-rcp[i-1])/nrc[i])
 			accitem=accitem+nrc[0]
 			acc.append(accitem)
@@ -197,25 +197,24 @@ def readdata(namafile):
 			rp.append(temp+mesh[i])
 			"""temp value after the inner looping remain the same and added to the next level of the outer loop"""
 			temp=temp+mesh[i]
-	print('-----')
 	globalVar.geod['rp']=rp
-    
-    """zone radius in graphite grain"""
+	
+	"""zone radius in graphite grain"""
 	rk0=[]
 	rk0.append(0.0)
 	nk0=globalVar.geodi['nk0']
-    rkorn=globalVar.geod['rkorn']
+	rkorn=globalVar.geod['rkorn']
 	for i in range(1,nk0+1):
 		rk0.append(rk0[i-1]+(rkorn/nk0))
 
 	globalVar.geod['rk0']=rk0
        
-    """Heavy Metal Contamination Data"""
+	"""Heavy Metal Contamination Data"""
 	ukontp=[]
 	temp1=f.readline()
 	temp2=temp1.split()
-	kont['ukongk']=float(temp2[0])
-	kont['ukongp']=float(temp2[1])
+	globalVar.kont['ukongk']=float(temp2[0])
+	globalVar.kont['ukongp']=float(temp2[1])
 	unkernel=1.-(float(temp2[0])+float(temp2[1])+float(temp2[2])+float(temp2[3])+float(temp2[4])+float(temp2[5]))
 	ukontp.append(unkernel)
 	ukontp.append(float(temp2[2]))
@@ -228,18 +227,18 @@ def readdata(namafile):
 	temp1=f.readline()
 	temp2=temp1.split()
 	temp3=len(temp2)
-	diff['d0g']=float(temp2[0])
-	diff['akg']=float(temp2[1])
-	diff['f0g']=float(temp2[2])
-	diff['f0pk']=float(temp2[3])
-	diff['f0psic']=float(temp2[4])
-	diff['f0pdpk']=float(temp2[5])
+	globalVar.diff['d0g']=float(temp2[0])
+	globalVar.diff['akg']=float(temp2[1])
+	globalVar.diff['f0g']=float(temp2[2])
+	globalVar.diff['f0pk']=float(temp2[3])
+	globalVar.diff['f0psic']=float(temp2[4])
+	globalVar.diff['f0pdpk']=float(temp2[5])
 		
 	temp1=f.readline()
 	temp2=temp1.split()
-	diff['d0k']=float(temp2[0])
-	diff['akk']=float(temp2[1])
-	diff['f0kg']=float(temp2[2])
+	globalVar.diff['d0k']=float(temp2[0])
+	globalVar.diff['akk']=float(temp2[1])
+	globalVar.diff['f0kg']=float(temp2[2])
     
     	
 	d0p=[]
@@ -257,261 +256,220 @@ def readdata(namafile):
 	d0p.append(temp3)
 	globalVar.diff['d0p']=d0p
 	
-    akp=[]
-    temp1=f.readline()
-    temp2=temp1.split()
-    temp3=float(temp2[0])
-    akp.append(temp3)
-    temp3=float(temp2[1])
-    akp.append(temp3)
-    temp3=float(temp2[2])
-    akp.append(temp3)
-    temp3=float(temp2[3])
-    akp.append(temp3)
-    temp3=float(temp2[4])
-    akp.append(temp3)
-    diff['akp']=akp
-    
-    data['diff']=diff
-
-    temp1=f.readline()
-    temp2=temp1.split()
-    recr['recker']=float(temp2[0])
-    recr['recpyc']=float(temp2[1])
-    recr['recgra']=float(temp2[2])
-    #
-    data['recr']=recr
-    #	
-    
-    temp1=f.readline()
-    temp2=temp1.split()
-    adsoc['aci']=float(temp2[0])
-    adsoc['bci']=float(temp2[1])
-    adsoc['cgrenc']=float(temp2[2])
-    adsoc['ifadc']=float(temp2[3])
-    adsoc['tgrenc']=0.0
+	akp=[]
+	temp1=f.readline()
+	temp2=temp1.split()
+	temp3=float(temp2[0])
+	akp.append(temp3)
+	temp3=float(temp2[1])
+	akp.append(temp3)
+	temp3=float(temp2[2])
+	akp.append(temp3)
+	temp3=float(temp2[3])
+	akp.append(temp3)
+	temp3=float(temp2[4])
+	akp.append(temp3)
+	globalVar.diff['akp']=akp
 	
-    temp1=f.readline()
-    temp2=temp1.split()
-    adsoc['anci']=float(temp2[0])
-    adsoc['bnci']=float(temp2[1])
-    adsoc['enci']=float(temp2[2])
-    adsoc['fnci']=float(temp2[3])
-    #
-    data['adsoc']=adsoc
-    #
-    temp1=f.readline()
-    temp2=temp1.split()
-    nukdat['ainv']=float(temp2[0])
-    if data['ngnr']==1:
-        nukdat['zerfk']=7.29E-10
-    elif data['ngnr']==2:
-        nukdat['zerfk']=7.712E-10
-    elif data['ngnr']==3:
-        nukdat['zerfk']=3.21E-8
-    elif data['ngnr']==4:
-        nukdat['zerfk']=1.0E-6
-    #
-    data['nukdat']=nukdat
-    #
-    temp1=f.readline()      #to read the 'Irradiation Temp. History line
-    #
-    ####
-    # Read Normal Operation / Irradiation Data ( time , temp)
-    ####
-    temp1=f.readline()
-    temp2=temp1.split()
-    ni0=int(temp2[0])               # ni0 : number of pair of data in normal operation
-    itemp['ni0']=ni0
-    #print('ni0 : ', ni0)
-    azeit0=[]
-    atemp0=[]
-    for i in range(ni0):
-        temp1=f.readline()
-        temp2=temp1.split()
-        azeit0.append(float(temp2[1]))
-        atemp0.append(float(temp2[2]))
-    ttemp['azeit0']=azeit0          # units in [days]
-    ttemp['atemp0']=atemp0          # units in degC
-    #print('azeit0 : ', len(azeit0),azeit0)
-    #print('----')
-    #print('atemp0 : ', len(atemp0),atemp0)
-    #print('----')
-    # data terkait Lapisan Silicon Carbide
-    temp1=f.readline()      #to read the 'Accident Temp. History line
-    #
-    ####
-    # Read Normal Operation / Irradiation Data ( time , temp)
-    ####
-    temp1=f.readline()
-    temp2=temp1.split()
-    ni=int(temp2[0])
-    itemp['ni']=ni
-    #print('ni0 : ', ni0)
-    azeit=[]
-    atemp=[]
-    for i in range(ni):
-        temp1=f.readline()
-        temp2=temp1.split()
-        azeit.append(float(temp2[1]))
-        atemp.append(float(temp2[2]))
-    ttemp['azeit']=azeit                #units in [hours]
-    ttemp['atemp']=atemp                #units in degC
-    #print('azeit : ', len(azeit),azeit)
-    #print('----')
-    #print('atemp : ', len(atemp),atemp)
-    #print('----')
-    #
-    data['itemp']=itemp
-    data['ttemp']=ttemp
+	temp1=f.readline()
+	temp2=temp1.split()
+	globalVar.recr['recker']=float(temp2[0])
+	globalVar.recr['recpyc']=float(temp2[1])
+	globalVar.recr['recgra']=float(temp2[2])
     
-    ####
-    # data terkait Lapisan Silicon Carbide : SIC
-    ####
-    alsic=0                 #corroded length of SiC layer in cm
-    ds0=rcp[3]              #thickness of SiC layer , taken from rcp input array.
-    dkor=0.0                # ?
-    isic=nrc[3]             # number of SiC-layer
-    dsic=ds0/isic           # thickness of a spherical shell in the SiC-layer.
-    dif=0.0
-    msic=0                  #number of corroded sphere shells in SiC
-    msiges=0                # 
-    sic['alsic']=alsic
-    sic['ds0']=ds0
-    sic['dkor']=dkor
-    sic['dsic']=dsic
-    sic['dif']=dif
-    sic['isic']=isic
-    sic['msic']=msic
-    sic['msiges']=msiges
-    #
-    data['sic']=sic
-    #
-    #
-    ####
-    # data terkait profile konsentrasi: INVENT
-    ####
-    #
-    aicp=[]                     # fp-inventory in single layers 
-    for i in range(5):
-        aicp.append(0.0)
-    invent['aicp']=aicp
-    #
-    aicpi=0.0 
-    invent['aicpi']=aicpi       # fp-inventory in intact coated particle (CP)
-    #
-    aicpd=[]
-    for i in range(5):
-        aicpd.append(0.0)
-    invent['aicpd']=aicpd       # sp-inventory in one defective CP (kernel)
-    #
-    aicpk=0.0
-    invent['aicpk']=aicpk       # fp-inventory in kernels of all coated particle (CP)
-    #
-    aicpdg=0.0
-    invent['aicpdg']=aicpdg     # fp-inventory in kernels of all defective coated particle (CP)
-    #
-    aicpg=0.0
-    invent['aicpg']=aicpg       # fp-inventory in all coated particles (CPs)
-    #
-    aigk=0.0
-    invent['aigk']=aigk         # fp-inventory in dern graphitekoernern
-    #
-    data['invent']=invent
-    #
-    ####
-    # data terkait profile inventory: INVEN1
-    ####
-    #
-    aigp=0.0
-    inven1['aigp']=aigp         # fp-inventory in graphite-pores
-    #
-    aifr=0.0
-    inven1['aifr']=aifr         # fp-amount outside the fuel element 
-    #
-    data['inven1']=inven1
-    #
-    ####
-    # data terkait konsentrasi FP: KONZ
-    ####
-    cb=[]
-    icb=200
-    for i in range(icb):
-        cb.append(0.0)
-    konz['cb']=cb       # fp-concentration in graphite pores
-    #
-    ck=[]
-    ick=200
-    for i in range(ick):
-        ck.append(0.0)
-    konz['ck']=ck       # fp-concentration in graphite grains
-    #
-    cp=[]
-    icp=200
-    for i in range(icp):
-        cp.append(0.0)
-    konz['cp']=cp       # fp-concentration in graphite particles
-    #
-    cpb=[]
-    icpb=200
-    for i in range(icpb):
-        cpb.append(0.0)
-    konz['cpb']=cpb       # fp-concentration in graphite grains
-    #
-    data['konz']=konz
-    #
-    ####
-    # data terkait ....: TRADAT
-    ####
-    temper=0.0
-    tradat['temper']=temper         # temperature 
-    #
-    difgp=[]
-    idifgp=5
-    for i in range(idifgp):
-        difgp.append(0.0)
-    tradat['difgp']=difgp       # fp-concentration in graphite grains
-    #
-    difgk=0.0
-    tradat['difgk']=difgk         # fp-amount outside the fuel element 
-    #
-    difkcp=[]
-    idifkcp=5
-    for i in range(idifkcp):
-        difkcp.append(0.0)
-    tradat['difkcp']=difkcp       # fp-concentration in graphite grains
-    #
-    data['tradat']=tradat
-    #
-    ####
-    # data terkait ....: CPBRU
-    ####
-    #
-    pbra=0.0
-    cpbru['pbra']=pbra         # fraction of defective particles 
-    #
-    pzahli=0
-    cpbru['pzahli']=pzahli         # number of intact particles 
-    #
-    pzahld=[]
-    ipzahld=10
-    for i in range(ipzahld):
-        pzahld.append(0.0)
-    cpbru['pzahld']=pzahld       # number of defective particles
-    #
-    freik=0
-    cpbru['freik']=freik         # fractional release from CP-kernel (avg. over all cp incl. defectives) 
-    #
-    frcp=0
-    cpbru['frcp']=frcp         # fractional release from particles (avg. over all cp incl. defectives) 
-    #
-    frb=0
-    cpbru['frb']=frb         # fractional release from fuel element
-    #
-    frgk=0
-    cpbru['frgk']=frgk         # fractional release from graphite grain
-    #
-    data['cpbru']=cpbru
-    ##
-    f.close()
-    return data
+	temp1=f.readline()
+	temp2=temp1.split()
+	globalVar.adsoc['aci']=float(temp2[0])
+	globalVar.adsoc['bci']=float(temp2[1])
+	globalVar.adsoc['cgrenc']=float(temp2[2])
+	globalVar.adsoc['ifadc']=float(temp2[3])
+	globalVar.adsoc['tgrenc']=0.0
+	
+	temp1=f.readline()
+	temp2=temp1.split()
+	globalVar.adsoc['anci']=float(temp2[0])
+	globalVar.adsoc['bnci']=float(temp2[1])
+	globalVar.adsoc['enci']=float(temp2[2])
+	globalVar.adsoc['fnci']=float(temp2[3])
+
+	temp1=f.readline()
+	temp2=temp1.split()
+	globalVar.nukdat['ainv']=float(temp2[0])
+	if globalVar.outst['ngnr']==1:
+		globalVar.nukdat['zerfk']=7.29E-10
+	elif globalVar.outst['ngnr']==2:
+		globalVar.nukdat['zerfk']=7.712E-10
+	elif globalVar.outst['ngnr']==3:
+		globalVar.nukdat['zerfk']=3.21E-8
+	elif globalVar.outst['ngnr']==4:
+		globalVar.nukdat['zerfk']=1.0E-6
+
+	temp1=f.readline()      #to read the 'Irradiation Temp. History line
+	temp1=f.readline()
+	temp2=temp1.split()
+	ni0=int(temp2[0])               # ni0 : number of pair of data in normal operation
+	globalVar.itemp['ni0']=ni0
+    
+	for i in range(ni0):
+		temp1=f.readline()
+		temp2=temp1.split()
+		globalVar.ttemp['azeit0'].append(float(temp2[1]))
+		globalVar.ttemp['atemp0'].append(float(temp2[2]))
+	"""globalVar.ttemp['azeit0']=azeit0          # units in [days]
+	globalVar.ttemp['atemp0']=atemp0          # units in degC"""
+
+	temp1=f.readline()      #to read the 'Accident Temp. History line
+	temp1=f.readline()
+	temp2=temp1.split()
+	ni=int(temp2[0])
+	globalVar.itemp['ni']=ni
+    
+	azeit=[]
+	atemp=[]
+	for i in range(ni):
+		temp1=f.readline()
+		temp2=temp1.split()
+		azeit.append(float(temp2[1]))
+		atemp.append(float(temp2[2]))
+	globalVar.ttemp['azeit']=azeit                #units in [hours]
+	globalVar.ttemp['atemp']=atemp                #units in degC
+
+	alsic=0                 #corroded length of SiC layer in cm
+	ds0=rcp[3]              #thickness of SiC layer , taken from rcp input array.
+	dkor=0.0                # ?
+	isic=nrc[3]             # number of SiC-layer
+	dsic=ds0/isic           # thickness of a spherical shell in the SiC-layer.
+	dif=0.0
+	msic=0                  #number of corroded sphere shells in SiC
+	msiges=0                # 
+	globalVar.sic['alsic']=alsic
+	globalVar.sic['ds0']=ds0
+	globalVar.sic['dkor']=dkor
+	globalVar.sic['dsic']=dsic
+	globalVar.sic['dif']=dif
+	globalVar.sic['isic']=isic
+	globalVar.sic['msic']=msic
+	globalVar.sic['msiges']=msiges
+
+	"""fp-inventory in single layers"""
+	aicp=[]
+	for i in range(5):
+		aicp.append(0.0)
+	globalVar.invent['aicp']=aicp
+
+	"""fp-inventory in intact coated particle (CP)"""
+	aicpi=0.0 
+	globalVar.invent['aicpi']=aicpi
+
+	"""sp-inventory in one defective CP (kernel)"""
+	aicpd=[]
+	for i in range(5):
+		aicpd.append(0.0)
+	globalVar.invent['aicpd']=aicpd
+
+	"""fp-inventory in kernels of all coated particle (CP)"""
+	aicpk=0.0
+	globalVar.invent['aicpk']=aicpk
+    
+	"""fp-inventory in kernels of all defective coated particle (CP)"""
+	aicpdg=0.0
+	globalVar.invent['aicpdg']=aicpdg
+
+	"""fp-inventory in all coated particles (CPs)"""
+	aicpg=0.0
+	globalVar.invent['aicpg']=aicpg
+
+	"""fp-inventory in dern graphitekoernern"""
+	aigk=0.0
+	globalVar.invent['aigk']=aigk
+
+	"""fp-inventory in graphite-pores"""
+	aigp=0.0
+	globalVar.inven1['aigp']=aigp
+
+	"""fp-amount outside the fuel element"""
+	aifr=0.0
+	globalVar.inven1['aifr']=aifr 
+
+	"""fp-concentration in graphite pores"""
+	cb=[]
+	icb=200
+	for i in range(icb):
+		cb.append(0.0)
+	globalVar.konz['cb']=cb 
+
+	"""fp-concentration in graphite grains"""
+	ck=[]
+	ick=200
+	for i in range(ick):
+		ck.append(0.0)
+	globalVar.konz['ck']=ck
+
+	"""fp-concentration in graphite particles"""
+	cp=[]
+	icp=200
+	for i in range(icp):
+		cp.append(0.0)
+	globalVar.konz['cp']=cp
+
+	"""fp-concentration in graphite grains"""
+	cpb=[]
+	icpb=200
+	for i in range(icpb):
+		cpb.append(0.0)
+	globalVar.konz['cpb']=cpb
+ 
+	"""temperature"""
+	temper=0.0
+	globalVar.tradat['temper']=temper 
+    
+	"""fp-concentration in graphite grains"""
+	difgp=[]
+	idifgp=5
+	for i in range(idifgp):
+		difgp.append(0.0)
+	globalVar.tradat['difgp']=difgp
+
+	"""fp-amount outside the fuel element"""
+	difgk=0.0
+	globalVar.tradat['difgk']=difgk 
+
+	"""fp-concentration in graphite grains"""
+	difkcp=[]
+	idifkcp=5
+	for i in range(idifkcp):
+		difkcp.append(0.0)
+	globalVar.tradat['difkcp']=difkcp
+
+	"""fraction of defective particles"""
+	pbra=0.0
+	globalVar.cpbru['pbra']=pbra 
+
+	"""number of intact particles"""
+	pzahli=0
+	globalVar.cpbru['pzahli']=pzahli
+
+	"""number of defective particles"""
+	pzahld=[]
+	ipzahld=10
+	for i in range(ipzahld):
+		pzahld.append(0.0)
+	globalVar.cpbru['pzahld']=pzahld
+
+	"""fractional release from CP-kernel (avg. over all cp incl. defectives) """
+	freik=0
+	globalVar.cpbru['freik']=freik
+
+	"""fractional release from particles (avg. over all cp incl. defectives) """
+	frcp=0
+	globalVar.cpbru['frcp']=frcp
+
+	"""fractional release from fuel element"""
+	frb=0
+	globalVar.cpbru['frb']=frb
+
+	"""fractional release from graphite grain"""
+	frgk=0
+	globalVar.cpbru['frgk']=frgk
+
+	return
