@@ -1,0 +1,15 @@
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Aspek keselamatan reaktor nuklir}}{2}{figure.1.1}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Ilustrasi lepasnya produk fisi dari bahan bakar \textit {pebble bed} \cite {report2}}}{3}{figure.2.1}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Diagram skematik reaktor temperatur tinggi \cite {kadak}}}{4}{figure.2.2}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Persebaran konsentraasi isotop tinjauan pada proses adsorpsi dan desorpsi \cite {report2}}}{5}{figure.2.3}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Diskritisasi elemen bahan bakar}}{6}{figure.2.4}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Diskritisasi arah radial \cite {keshaw}}}{8}{figure.2.5}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Konteks level 0 dari sistem TRIAC2}}{9}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Berkas masukan dan penjelasannya}}{10}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Subrutin yang langsung berada di bawah FRESCO-II}}{10}{figure.3.3}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Interaksi antara subrutin LESSEN dan subrutin lain}}{10}{figure.3.4}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Interaksi antara subrutin ANFANG dan subrutin lain}}{12}{figure.3.5}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Interaksi antara subrutin INSTAT dan subrutin lain}}{12}{figure.3.6}

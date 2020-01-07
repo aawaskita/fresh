@@ -1,0 +1,59 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{#1}
+\csname url@rmstyle\endcsname
+\providecommand{\newblock}{\relax}
+\providecommand{\bibinfo}[2]{#2}
+\providecommand\BIBentrySTDinterwordspacing{\spaceskip=0pt\relax}
+\providecommand\BIBentryALTinterwordstretchfactor{4}
+\providecommand\BIBentryALTinterwordspacing{\spaceskip=\fontdimen2\font plus
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
+  \fontdimen4\font\relax}
+\providecommand\BIBforeignlanguage[2]{{%
+\expandafter\ifx\csname l@#1\endcsname\relax
+\typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
+\typeout{** loaded for the language `#1'. Using the pattern for}%
+\typeout{** the default language instead.}%
+\else
+\language=\csname l@#1\endcsname
+\fi
+#2}}
+
+\bibitem{report2}
+K.~Verfondern and H.~Nabielek, ``Fresco-ii verification and validation,'' J\,
+  Tech. Rep., 2012.
+
+\bibitem{kadak}
+A.~C. Kadak, ``A future for nuclear energy: pebble bed reactors,'' \emph{Int.
+  J. Critical Infrastructures}, vol.~1, no.~4, 2005.
+
+\bibitem{keshaw}
+J.~Keshaw, ``Reverse engineering of getter a fission product release code for
+  pbmr,'' Master's thesis, Potchefstroom campus, Northwest University, 2007.
+
+\bibitem{report1}
+K.~Verfondern and H.~Nabielek, ``The mathematical basis of the panama-i code
+  for modelling pressure vessel failure of triso coated particles under
+  accident conditions,'' Julich Research Center, Germany, Tech. Rep., 1990.
+
+\bibitem{VERFONDERN201484}
+\BIBentryALTinterwordspacing
+K.~Verfondern, J.~Cao, T.~Liu, and H.-J. Allelein, ``Conclusions from v\&v
+  studies on the german codes panama and fresco for htgr fuel performance and
+  fission product release,'' \emph{Nuclear Engineering and Design}, vol. 271,
+  pp. 84 -- 91, 2014, sI : HTR 2012. [Online]. Available:
+  \url{http://www.sciencedirect.com/science/article/pii/S0029549313005992}
+\BIBentrySTDinterwordspacing
+
+\bibitem{triac1}
+\BIBentryALTinterwordspacing
+A.~A. Waskita and T.~Setiadipura, ``The development of {TRIAC}-{BATAN}: a triso
+  fuel performance analysis code,'' vol. 1198, no.~2.\hskip 1em plus 0.5em
+  minus 0.4em\relax {IOP} Publishing, apr 2019, p. 022035. [Online]. Available:
+  \url{https://doi.org/10.1088%2F1742-6596%2F1198%2F2%2F022035}
+\BIBentrySTDinterwordspacing
+
+\bibitem{report3}
+B.~E. Bari, ``Analisis dasar subroutine kalkulasi konsentrasi produk fisi pada
+  program fresco-ii,'' PTKRN - BATAN, Tech. Rep., 2018, laporan Kerja Praktik.
+
+\end{thebibliography}

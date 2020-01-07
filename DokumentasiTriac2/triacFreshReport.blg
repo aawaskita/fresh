@@ -1,0 +1,67 @@
+This is BibTeX, Version 0.99d (TeX Live 2017/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: triacFreshReport.aux
+A level-1 auxiliary file: sampul.aux
+The style file: IEEEtran.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: references.bib
+You're missing a field name---line 5 of file references.bib
+ :     year     = {2007}, 
+ :                        %other attributes omitted
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 71 of file references.bib
+ :  institution="J\"
+ :                  {u}ulich Research Center, Germany",
+I'm skipping whatever remains of this entry
+-- IEEEtran.bst version 1.11 (2003/04/02) by Michael Shell.
+-- http://www.ctan.org/tex-archive/macros/latex/contrib/supported/IEEEtran/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+Warning--empty booktitle in triac1
+
+Done.
+You've used 7 entries,
+            3975 wiz_defined-function locations,
+            841 strings with 8301 characters,
+and the built_in function-call counts, 3851 in all, are:
+= -- 340
+> -- 63
+< -- 14
++ -- 30
+- -- 13
+* -- 181
+:= -- 707
+add.period$ -- 15
+call.type$ -- 7
+change.case$ -- 9
+chr.to.int$ -- 21
+cite$ -- 8
+duplicate$ -- 306
+empty$ -- 295
+format.name$ -- 17
+if$ -- 831
+int.to.chr$ -- 0
+int.to.str$ -- 7
+missing$ -- 66
+newline$ -- 45
+num.names$ -- 7
+pop$ -- 137
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 2
+skip$ -- 307
+stack$ -- 0
+substring$ -- 72
+swap$ -- 225
+text.length$ -- 7
+text.prefix$ -- 0
+top$ -- 5
+type$ -- 0
+warning$ -- 1
+while$ -- 11
+width$ -- 8
+write$ -- 93
+(There were 2 error messages)
