@@ -30,6 +30,14 @@ A.~C. Kadak, ``A future for nuclear energy: pebble bed reactors,'' \emph{Int.
 J.~Keshaw, ``Reverse engineering of getter a fission product release code for
   pbmr,'' Master's thesis, Potchefstroom campus, Northwest University, 2007.
 
+\bibitem{triac1}
+\BIBentryALTinterwordspacing
+A.~A. Waskita and T.~Setiadipura, ``The development of {TRIAC}-{BATAN}: a triso
+  fuel performance analysis code,'' vol. 1198, no.~2.\hskip 1em plus 0.5em
+  minus 0.4em\relax {IOP} Publishing, apr 2019, p. 022035. [Online]. Available:
+  \url{https://doi.org/10.1088%2F1742-6596%2F1198%2F2%2F022035}
+\BIBentrySTDinterwordspacing
+
 \bibitem{report1}
 K.~Verfondern and H.~Nabielek, ``The mathematical basis of the panama-i code
   for modelling pressure vessel failure of triso coated particles under
@@ -42,14 +50,6 @@ K.~Verfondern, J.~Cao, T.~Liu, and H.-J. Allelein, ``Conclusions from v\&v
   fission product release,'' \emph{Nuclear Engineering and Design}, vol. 271,
   pp. 84 -- 91, 2014, sI : HTR 2012. [Online]. Available:
   \url{http://www.sciencedirect.com/science/article/pii/S0029549313005992}
-\BIBentrySTDinterwordspacing
-
-\bibitem{triac1}
-\BIBentryALTinterwordspacing
-A.~A. Waskita and T.~Setiadipura, ``The development of {TRIAC}-{BATAN}: a triso
-  fuel performance analysis code,'' vol. 1198, no.~2.\hskip 1em plus 0.5em
-  minus 0.4em\relax {IOP} Publishing, apr 2019, p. 022035. [Online]. Available:
-  \url{https://doi.org/10.1088%2F1742-6596%2F1198%2F2%2F022035}
 \BIBentrySTDinterwordspacing
 
 \bibitem{report3}

@@ -381,6 +381,39 @@ Sedangkan interaksi antara subrutin INSTAT dan subrutin pendukung lainnya dijela
     \label{fig:interaction3}
   \end{center}
 \end{figure}
+
+\section{Diagram alir data level 1}
+Seperti yang telah dijelaskan FRESCO-II menggunakan 3 jenis sub rutin, yang masing-masing bertujuan untuk mengelola berkas masukan, melakukan perhitungan fenomena fisis serta penyelesaian persamaan matriks. Berkas masukan FRESCO-II sendiri berikut penjelasannya dapat diilustrasikan pada \figurename~\ref{fig:fileinput}. Sehingga kebutuhan pertama yang harus dimiliki TRIAC2 adalah kemampuan untuk membaca data tersebut untuk selanjutnya dihitung.
+
+Masukan selanjutnya adalah fraksi gagal partikel triso yang diperoleh dari TRIAC-BATAN \cite{triac1}. Variabel format fraksi gagal partikel triso sangat sederhana sebagaimana diilustrasikan di \figurename~\ref{fig:hasiltriac}. Dengan demikian, tidak diperlukan modul khusus yang mampu mengkonversi luaran dari TRIAC-BATAN menjadi masukan yang diperlukan TRIAC2. 
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[scale=.35]{pics/compareinit.png}
+    \caption{Fraksi gagal partikel triso pada sejumlah kondisi \cite{triac1}}
+    \label{fig:hasiltriac}
+  \end{center}
+\end{figure}
+
+Selanjutnya, FRESCO-II akan menghasilkan sejumlah nilai berikut. Fungsi-fungsi tersebut akan dijalankan oleh subrutin yang bertugas melakukan kalkulasi fenomena fisis
+\begin{enumerate}
+  \item Fraksi lepasan dan rerata fraksi gagal untuk seluruh partikel \textit{pebbel bed}
+  \item Inventarisasi produk fisi pada seluruh partikel
+  \item Inventarisasi produk fisi pada \textit{coated particle} (partikel triso)
+  \item Jumlah produk fisi yang lepas
+  \item Laju lepasan ($\frac{1}{s}$)
+\end{enumerate}
+
+Dengan kebutuhan tersebut, diagram alir data level 1 untuk TRIAC2 adalah seperti \figurename~\ref{fig:level1triac2}.
+\begin{figure}
+  \begin{center}
+    \includegraphics[scale=.35]{pics/level1triac2.png}
+    \caption{Diagram alir data level 1}
+    \label{fig:level1triac2}
+  \end{center}
+\end{figure}
+
+Tersedia juga sebuah subrutin yang berisi semua variabel yang terlibat. Saat ini semua variabel tersebut diperlakukan sama seperti yang ada pada FRESCO-II, yaitu sebagai variabel global. Setiap subrutin yang menggunakan variabel tersebut harus meng-\textit{import} subrutin variabel global tersebut.
 % Daftar Pustaka
 \bibliographystyle{IEEEtran}
 \bibliography{references}
